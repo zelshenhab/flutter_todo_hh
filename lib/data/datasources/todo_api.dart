@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import '../models/todo_model.dart';
 
@@ -13,8 +14,12 @@ class TodoApi {
         headers: {'Accept': 'application/json', 'User-Agent': 'FlutterApp/1.0'},
       );
 
-      print('🌐 API Response Code: ${response.statusCode}');
-      print('🌐 API Body: ${response.body.substring(0, 100)}');
+      if (kDebugMode) {
+        print('🌐 API Response Code: ${response.statusCode}');
+      }
+      if (kDebugMode) {
+        print('🌐 API Body: ${response.body.substring(0, 100)}');
+      }
 
       if (response.statusCode == 200) {
         final List data = json.decode(response.body);
@@ -30,7 +35,9 @@ class TodoApi {
         throw Exception('Failed to load todos: status ${response.statusCode}');
       }
     } catch (e) {
-      print('🔥 Error occurred: $e');
+      if (kDebugMode) {
+        print('🔥 Error occurred: $e');
+      }
       throw Exception('Failed to load todos');
     }
   }
